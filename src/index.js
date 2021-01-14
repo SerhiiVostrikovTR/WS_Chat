@@ -1,7 +1,43 @@
 import {createChatElements} from "./chatElements.js";
 
 createChatElements();
-const userName = 'Serhii';
+// const userName = 'Serhii';
+
+
+const userNameInput = document.querySelector('#username');
+const editUserButton = document.querySelector('#editUser');
+let editUserName = userNameInput.disabled;
+function editUserNameInput(){
+    if(!editUserName){
+        console.log('Enable username input');
+        userNameInput.disabled = false;
+        editUserName = true;
+    }
+    else {
+        console.log('Disable username input')
+        userNameInput.disabled = true;
+        editUserName = false;
+    }
+}
+
+function confirmUserName(){
+
+}
+
+editUserButton.onclick = editUserNameInput();
+
+function userName(name) {
+    if(getUserNameFromLocalStorage() === name){
+        return name;
+    }
+    else {
+
+    }
+}
+
+function getUserNameFromLocalStorage(){
+    return window.localStorage.getItem('user');
+}
 
 (function() {
 
@@ -57,9 +93,8 @@ const userName = 'Serhii';
                 console.log('New messages received!');
                 let messages = JSON.parse(data);
                 messages.forEach(msg => showMessage(msg));
-                console.log(data)
+                // console.log(data)
             };
-            // ws.onmessage = ({data}) => showMessage(data);
             ws.onclose = function () {
                 console.log('Close previous socket');
                 ws = null;

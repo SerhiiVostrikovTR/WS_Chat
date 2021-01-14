@@ -3,6 +3,7 @@ const messagesBoxId = 'messages';
 const messageInputId = 'messageInput';
 const sendButtonText = 'Send Message'
 const sendButtonId = 'sendButton';
+const userNameInputId = 'username';
 
 function createChatHeader(){
     const chatNameHeader = document.createElement('h1');
@@ -27,6 +28,33 @@ function createChatInput(){
     document.body.appendChild(chatInput);
 }
 
+function createUserNameInput(){
+    const chatInput = document.createElement('input');
+    chatInput.placeholder = 'Type your name here';
+    // chatInput.disabled = true;
+    chatInput.id = userNameInputId;
+    chatInput.classList.add('userNameInput');
+    document.body.appendChild(chatInput);
+}
+
+function createConfirmNameButton(){
+    const buttonConfirm = document.createElement('button');
+    const buttonText = document.createTextNode('Confirm name');
+    buttonConfirm.id = 'confirmUser';
+    buttonConfirm.classList.add('buttonConfirm');
+    buttonConfirm.appendChild(buttonText);
+    document.body.appendChild(buttonConfirm);
+}
+
+function createEditNameButton(){
+    const buttonEdit = document.createElement('button');
+    const buttonText = document.createTextNode('Edit name');
+    buttonEdit.id = 'editUser';
+    buttonEdit.classList.add('buttonConfirm');
+    buttonEdit.appendChild(buttonText);
+    document.body.appendChild(buttonEdit);
+}
+
 function createChatButtonSend(){
     const buttonSend = document.createElement('button');
     const buttonText = document.createTextNode(sendButtonText);
@@ -48,6 +76,9 @@ function createGetSocketStateButton(){
 function createChatElements(){
     createChatHeader();
     createChatBox();
+    createUserNameInput();
+    createConfirmNameButton();
+    createEditNameButton();
     createChatInput();
     createChatButtonSend();
     createGetSocketStateButton();
