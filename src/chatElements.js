@@ -10,14 +10,21 @@ function createChatHeader(){
     const chatNameText = document.createTextNode(chatName);
     chatNameHeader.classList.add('chatHeader');
     chatNameHeader.appendChild(chatNameText);
-    document.head.appendChild(chatNameHeader);
+    return chatNameHeader;
+}
+
+function chatInputAndSendButton(){
+    const divChatInputSend = document.createElement('div');
+    divChatInputSend.appendChild(createChatInput());
+    divChatInputSend.appendChild(createChatButtonSend());
+    return divChatInputSend;
 }
 
 function createChatBox(){
     const chatBox = document.createElement('pre');
     chatBox.id = messagesBoxId;
     chatBox.classList.add('messageBox');
-    document.body.appendChild(chatBox);
+    return chatBox;
 }
 
 function createChatInput(){
@@ -25,34 +32,17 @@ function createChatInput(){
     chatInput.placeholder = 'Type your message here';
     chatInput.id = messageInputId;
     chatInput.classList.add('messageInput');
-    document.body.appendChild(chatInput);
+    return chatInput;
 }
 
 function createUserNameInput(){
-    const chatInput = document.createElement('input');
-    chatInput.placeholder = 'Type your name here';
-    // chatInput.disabled = true;
-    chatInput.id = userNameInputId;
-    chatInput.classList.add('userNameInput');
-    document.body.appendChild(chatInput);
-}
-
-function createConfirmNameButton(){
-    const buttonConfirm = document.createElement('button');
-    const buttonText = document.createTextNode('Confirm name');
-    buttonConfirm.id = 'confirmUser';
-    buttonConfirm.classList.add('buttonConfirm');
-    buttonConfirm.appendChild(buttonText);
-    document.body.appendChild(buttonConfirm);
-}
-
-function createEditNameButton(){
-    const buttonEdit = document.createElement('button');
-    const buttonText = document.createTextNode('Edit name');
-    buttonEdit.id = 'editUser';
-    buttonEdit.classList.add('buttonConfirm');
-    buttonEdit.appendChild(buttonText);
-    document.body.appendChild(buttonEdit);
+    const userNameInput = document.createElement('input');
+    userNameInput.placeholder = 'Type your name here';
+    userNameInput.id = userNameInputId;
+    // if(window.localStorage.getItem('user')){
+    //     userNameInput.value = window.localStorage.getItem('user');
+    // }
+    return userNameInput;
 }
 
 function createChatButtonSend(){
@@ -61,27 +51,25 @@ function createChatButtonSend(){
     buttonSend.id = sendButtonId;
     buttonSend.classList.add('buttonSend');
     buttonSend.appendChild(buttonText);
-    document.body.appendChild(buttonSend);
+    return buttonSend;
 }
 
 function createGetSocketStateButton(){
     const buttonSend = document.createElement('button');
     const buttonText = document.createTextNode('Get Web Socket State');
     buttonSend.id = 'socketState';
-    buttonSend.classList.add('buttonSend');
     buttonSend.appendChild(buttonText);
-    document.body.appendChild(buttonSend);
+    return buttonSend;
 }
 
 function createChatElements(){
-    createChatHeader();
-    createChatBox();
-    createUserNameInput();
-    createConfirmNameButton();
-    createEditNameButton();
-    createChatInput();
-    createChatButtonSend();
-    createGetSocketStateButton();
+    const mainDiv = document.createElement('div');
+    mainDiv.appendChild(createChatHeader());
+    mainDiv.appendChild(createChatBox());
+    mainDiv.appendChild(createUserNameInput());
+    mainDiv.appendChild(chatInputAndSendButton());
+    mainDiv.appendChild(createGetSocketStateButton());
+    document.body.appendChild(mainDiv);
 }
 
 

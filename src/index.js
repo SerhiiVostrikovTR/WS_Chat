@@ -1,50 +1,43 @@
 import {createChatElements} from "./chatElements.js";
 
 createChatElements();
-// const userName = 'Serhii';
-
 
 const userNameInput = document.querySelector('#username');
-const editUserButton = document.querySelector('#editUser');
-let editUserName = userNameInput.disabled;
-function editUserNameInput(){
-    if(!editUserName){
-        console.log('Enable username input');
-        userNameInput.disabled = false;
-        editUserName = true;
+
+const sendBtn = document.querySelector('#sendButton');
+const socketStateBtn = document.querySelector('#socketState');
+const messages = document.querySelector('#messages');
+const messageBox = document.querySelector('#messageInput');
+
+function makeFormatMessage(msg){
+    return {'from': getUserNameFromLocalStorage(), 'message': msg};
+}
+
+function userNameHandler(){
+    let userName = getUserNameFromLocalStorage();
+    if(userName){
+        userNameInput.value = userName;
+        sendBtn.disabled = false;
     }
     else {
-        console.log('Disable username input')
-        userNameInput.disabled = true;
-        editUserName = false;
+        let inputUserName = userNameInput.value;
+        if(inputUserName){
+            window.localStorage.setItem('user', userNameInput.value);
+            sendBtn.disabled = false;
+        }
+        else {
+            sendBtn.disabled = true;
+        }
     }
 }
-
-function confirmUserName(){
-
-}
-
-editUserButton.onclick = editUserNameInput();
-
-function userName(name) {
-    if(getUserNameFromLocalStorage() === name){
-        return name;
-    }
-    else {
-
-    }
-}
+// sendBtn.addEventListener('click', )
+userNameInput.addEventListener('input', userNameHandler);
 
 function getUserNameFromLocalStorage(){
     return window.localStorage.getItem('user');
 }
 
 (function() {
-
-    const sendBtn = document.querySelector('#sendButton');
-    const socketStateBtn = document.querySelector('#socketState');
-    const messages = document.querySelector('#messages');
-    const messageBox = document.querySelector('#messageInput');
 
     let ws;
 
@@ -54,11 +47,11 @@ function getUserNameFromLocalStorage(){
         messageBox.value = '';
     }
 
-    function sendMessage(ws, msg){
+    function sendMessage(msg){
         waitForSocketConnection(ws, function (){
             console.log('Your message was sent!');
-            console.log(JSON.stringify({from: userName, message: msg}));
-            ws.send(JSON.stringify({from: userName, message: msg}));
+            console.log(JSON.stringify(makeFormatMessage(msg)));
+            ws.send(JSON.stringify(makeFormatMessage(msg)));
         });
     }
 
@@ -93,7 +86,6 @@ function getUserNameFromLocalStorage(){
                 console.log('New messages received!');
                 let messages = JSON.parse(data);
                 messages.forEach(msg => showMessage(msg));
-                // console.log(data)
             };
             ws.onclose = function () {
                 console.log('Close previous socket');
@@ -107,8 +99,12 @@ function getUserNameFromLocalStorage(){
             showMessage("No WebSocket connection :(");
             return ;
         }
-        sendMessage(ws, messageBox.value);
-        showMessage(messageBox.value);
+        if(userNameInput.value && messageBox.value){
+            sendMessage(messageBox.value);
+        }
+        else {
+            alert(`Can't send message! Username/message is empty!`);
+        }
     }
 
     socketStateBtn.onclick = function () {
