@@ -1,9 +1,16 @@
+import {getUserNameFromLocalStorage} from "./chatFeatures.js";
+
 const chatName = 'WebSocket chat';
 const messagesBoxId = 'messages';
 const messageInputId = 'messageInput';
 const sendButtonText = 'Send Message'
 const sendButtonId = 'sendButton';
 const userNameInputId = 'username';
+
+let chatDisplayBox;
+let messageBoxInput;
+let sendBtn;
+let userNameInput;
 
 function createChatHeader(){
     const chatNameHeader = document.createElement('h1');
@@ -21,45 +28,38 @@ function chatInputAndSendButton(){
 }
 
 function createChatBox(){
-    const chatBox = document.createElement('pre');
-    chatBox.id = messagesBoxId;
-    chatBox.classList.add('messageBox');
-    return chatBox;
+    chatDisplayBox = document.createElement('pre');
+    chatDisplayBox.id = messagesBoxId;
+    chatDisplayBox.classList.add('messageBox');
+    return chatDisplayBox;
 }
 
 function createChatInput(){
-    const chatInput = document.createElement('input');
-    chatInput.placeholder = 'Type your message here';
-    chatInput.id = messageInputId;
-    chatInput.classList.add('messageInput');
-    return chatInput;
+    messageBoxInput = document.createElement('input');
+    messageBoxInput.placeholder = 'Type your message here';
+    messageBoxInput.id = messageInputId;
+    messageBoxInput.classList.add('messageInput');
+    return messageBoxInput;
 }
 
 function createUserNameInput(){
-    const userNameInput = document.createElement('input');
+    userNameInput = document.createElement('input');
+    let userNameFromLocalStorage = getUserNameFromLocalStorage();
     userNameInput.placeholder = 'Type your name here';
     userNameInput.id = userNameInputId;
-    // if(window.localStorage.getItem('user')){
-    //     userNameInput.value = window.localStorage.getItem('user');
-    // }
+    if (userNameFromLocalStorage){
+        userNameInput.value = userNameFromLocalStorage;
+    }
     return userNameInput;
 }
 
 function createChatButtonSend(){
-    const buttonSend = document.createElement('button');
+    sendBtn = document.createElement('button');
     const buttonText = document.createTextNode(sendButtonText);
-    buttonSend.id = sendButtonId;
-    buttonSend.classList.add('buttonSend');
-    buttonSend.appendChild(buttonText);
-    return buttonSend;
-}
-
-function createGetSocketStateButton(){
-    const buttonSend = document.createElement('button');
-    const buttonText = document.createTextNode('Get Web Socket State');
-    buttonSend.id = 'socketState';
-    buttonSend.appendChild(buttonText);
-    return buttonSend;
+    sendBtn.id = sendButtonId;
+    sendBtn.classList.add('buttonSend');
+    sendBtn.appendChild(buttonText);
+    return sendBtn;
 }
 
 function createChatElements(){
@@ -68,10 +68,9 @@ function createChatElements(){
     mainDiv.appendChild(createChatBox());
     mainDiv.appendChild(createUserNameInput());
     mainDiv.appendChild(chatInputAndSendButton());
-    mainDiv.appendChild(createGetSocketStateButton());
     document.body.appendChild(mainDiv);
 }
 
 
-export {createChatElements, messageInputId, messagesBoxId, sendButtonId};
+export {createChatElements, chatDisplayBox, sendBtn, messageBoxInput, userNameInput};
 
