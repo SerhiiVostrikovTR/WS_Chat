@@ -30,8 +30,8 @@ function userNameHandler(){
         }
     }
 }
-// sendBtn.addEventListener('click', )
-userNameInput.addEventListener('input', userNameHandler);
+
+userNameInput.addEventListener('change', userNameHandler);
 
 function getUserNameFromLocalStorage(){
     return window.localStorage.getItem('user');
